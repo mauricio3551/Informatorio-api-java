@@ -29,6 +29,23 @@ public class PostController {
         return new ResponseEntity<>(postRepository.save(post), HttpStatus.CREATED);
     }
 
+    //Modificar post
+    @PutMapping ("api/v1/post/{id}/modificar")
+    public ResponseEntity<?> modificarPost(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String contenido, @PathVariable ("id") Long id){
+        Optional<Post> postViejo = postRepository.findById(id);
+        Post postNuevo = postViejo.get();
+        postNuevo.setId(id);
+        postNuevo.setTitulo(titulo);
+        postNuevo.setDescripcion(descripcion);
+        postNuevo.setContenido(contenido);
+        postNuevo.setFechaCreacion(postViejo.get().getFechaCreacion());
+        postNuevo.setAutor(postViejo.get().getAutor());
+        postNuevo.setPublicado(postViejo.get().isPublicado());
+        postNuevo.setComentario(postViejo.get().getComentario());
+
+        return new ResponseEntity<>(postRepository.save(postNuevo),HttpStatus.CREATED);
+    }
+
 
 
 

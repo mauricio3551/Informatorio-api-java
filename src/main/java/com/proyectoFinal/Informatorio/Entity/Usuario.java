@@ -1,9 +1,11 @@
 package com.proyectoFinal.Informatorio.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Usuario {
@@ -11,16 +13,26 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
     private String apellido;
+
     @Column(unique = true)
     private String email;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    private Date fechaCreacion;
+
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
+    private LocalDate fechaCreacion;
+
     private String ciudad;
     private String provincia;
     private String pais;
+
+
+    private Post post;
 
     public Long getId() {
         return id;
@@ -62,11 +74,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public Date getFechaCreacion() {
+    public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
+    public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 

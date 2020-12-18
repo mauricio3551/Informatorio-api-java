@@ -1,7 +1,10 @@
 package com.proyectoFinal.Informatorio.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,17 +14,22 @@ public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Se requiere un titulo")
     private String titulo;
+
     private String descripcion;
+
     @NotBlank(message = "Debe existir contenido")
     private String contenido;
-    private Date fechaCreacion;
-    @OneToOne
-    @NotBlank(message = "Debe existir un autor")
+
+    private LocalDate fechaCreacion;
+
     private Usuario autor;
+
     private boolean publicado;
-    @OneToMany
+
+
     private List<Comentario> comentario;
 
     public Long getId() {
@@ -56,11 +64,11 @@ public class Post {
         this.contenido = contenido;
     }
 
-    public Date getFechaCreacion() {
+    public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
+    public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 
