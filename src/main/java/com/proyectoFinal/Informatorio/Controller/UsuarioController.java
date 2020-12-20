@@ -3,14 +3,12 @@ package com.proyectoFinal.Informatorio.Controller;
 import com.proyectoFinal.Informatorio.Entity.Usuario;
 import com.proyectoFinal.Informatorio.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -66,7 +64,7 @@ public class UsuarioController {
 
     //Buscar desde una fecha
     @GetMapping("api/v1/usuario/buscar/fecha")
-    public ResponseEntity<?> buscarUsuarioFecha(@RequestBody Date date){
+    public ResponseEntity<?> buscarUsuarioFecha(@RequestParam @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate date){
         return new ResponseEntity<>(usuarioRepository.encontrarUsuarioPorFecha(date),HttpStatus.OK);
     }
 

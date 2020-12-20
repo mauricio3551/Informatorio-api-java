@@ -1,11 +1,15 @@
 package com.proyectoFinal.Informatorio.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -14,25 +18,40 @@ public class Usuario {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Ingrese nombre")
     private String nombre;
+
+    @NotBlank(message = "Ingrese apellido")
     private String apellido;
 
-    @Column(unique = true)
+    @NotBlank(message = "Ingrese email")
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Ingrese contraseña")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate fechaCreacion;
-
+    private LocalDate fechaCreacion = LocalDate.now();
     private String ciudad;
     private String provincia;
     private String pais;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "postReference")
+    private List<Post> post = new ArrayList<>();
 
-    private Post post;
+    @OneToMany(mappedBy = "usuario_comentario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "usuarioComentario")
+    private List<Comentario> comentario = new ArrayList<>();
+
+    public Usuario(Long id){
+        this.id = id;
+    }
+
+    public Usuario() {
+
+    }
 
     public Long getId() {
         return id;
@@ -104,5 +123,21 @@ public class Usuario {
 
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    public List<Post> getPost() {
+        return post;
+    }
+
+    public void setPost(List<Post> post) {
+        this.post = post;
+    }
+
+    public List<Comentario> getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(List<Comentario> comentario) {
+        this.comentario = comentario;
     }
 }

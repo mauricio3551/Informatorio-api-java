@@ -1,11 +1,12 @@
 package com.proyectoFinal.Informatorio.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,22 +16,37 @@ public class Post {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     @NotBlank(message = "Se requiere un titulo")
     private String titulo;
 
+    @Column(nullable = false)
+    @NotBlank(message = "Se requiere una descripcion")
     private String descripcion;
 
     @NotBlank(message = "Debe existir contenido")
     private String contenido;
 
-    private LocalDate fechaCreacion;
+    private LocalDate fechaCreacion = LocalDate.now();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    @JsonBackReference(value = "postReference")
     private Usuario autor;
 
     private boolean publicado;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "comentarioPost")
+    private List<Comentario> comentario = new ArrayList<>();
 
-    private List<Comentario> comentario;
+    public Post(Long id) {
+        this.id = id;
+    }
+
+    public Post(){
+
+    }
 
     public Long getId() {
         return id;
