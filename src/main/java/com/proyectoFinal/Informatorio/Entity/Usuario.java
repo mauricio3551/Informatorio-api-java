@@ -37,11 +37,11 @@ public class Usuario {
     private String provincia;
     private String pais;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value = "postReference")
     private List<Post> post = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario_comentario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "comentario_usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value = "usuarioComentario")
     private List<Comentario> comentario = new ArrayList<>();
 
