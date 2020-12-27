@@ -35,7 +35,7 @@ public class ComentarioService {
         comentarioRepository.delete(comentario);
     }
 
-
-
-
+    public List<Comentario> getComentariosEnPost(Long id, Integer numero){
+        return comentarioRepository.comentarioByPostId(id,numero);
+    }
 }
