@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @GetMapping("api/v1/post/no_publicado")
-    public ResponseEntity<?> buscarPostNoPublicado(@RequestParam Boolean publi){
+    public ResponseEntity<?> buscarPostNoPublicado(){
         return new ResponseEntity<>(postService.buscarPostNoPublicados(),HttpStatus.OK);
     }
 
