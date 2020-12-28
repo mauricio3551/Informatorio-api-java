@@ -1,14 +1,12 @@
 package com.proyectoFinal.Informatorio.Controller;
 
 import com.proyectoFinal.Informatorio.Entity.Comentario;
-import com.proyectoFinal.Informatorio.Repository.ComentarioRepository;
 import com.proyectoFinal.Informatorio.Service.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 public class ComentarioController {
@@ -26,7 +24,7 @@ public class ComentarioController {
         return new ResponseEntity<>(comentarioService.crearComentario(comentario), HttpStatus.CREATED);
     }
 
-    @PutMapping("api/avi/comentario/{id}/modificar")
+    @PutMapping("api/v1/comentario/{id}/modificar")
     public ResponseEntity<?> modificarController(@RequestBody Comentario comentario, @PathVariable ("id") Long id){
         Comentario comentarioNuevo = comentarioService.encontrarComentario(id);
         comentarioNuevo.setId(id);
@@ -46,8 +44,8 @@ public class ComentarioController {
         return HttpStatus.ACCEPTED;
     }
 
-    @GetMapping("api/v1/comentario/{id}")
-    public ResponseEntity<?> tomarComentariosDePost(@RequestParam Long idPost, @RequestParam(required = false, defaultValue = "99999999") Integer numero){
+    @GetMapping("api/v1/post/{id}/comentario")
+    public ResponseEntity<?> tomarComentariosDePost(@PathVariable("id") Long idPost, @RequestParam(required = false, defaultValue = "9999") Integer numero){
         return new ResponseEntity<>(comentarioService.getComentariosEnPost(idPost, numero), HttpStatus.OK);
     }
 
